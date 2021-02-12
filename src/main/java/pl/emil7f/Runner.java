@@ -6,7 +6,7 @@ import javax.persistence.Persistence;
 
 public class Runner {
 
-    /**
+     /**
      * 1. Po dodaniu zależności hibernate-core Tworzymy Entity manager, jeśli już go mamy możemy sobie stworzyć sesje hibernate
      * Tworzymy entityManagera i możemy zacząć wykonywać jakieś operacje
      * Jeśli chcemy stworzyć jakieś transakcje to poprzez getTransaction.begin() rozpoczynamy sesje
