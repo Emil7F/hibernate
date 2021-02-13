@@ -28,7 +28,7 @@ public class Product {
     @Enumerated(EnumType.STRING)  // Mapowanie enuma na pole, najlepiej uzywac enuma jako stringa (EnumType.ORDINAL zrobi nam z tego wartosci 0 1 2....
     private ProductType productType;
 
-    @OneToMany(mappedBy = "product")  // zmiana mapowania!!! zamiast @JoinColumn ustawiamy parametr mappedBy = "nazwa pola po drugiej stronie"
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)  // zmiana mapowania!!! zamiast @JoinColumn ustawiamy parametr mappedBy = "nazwa pola po drugiej stronie"
     private List<Review> reviews;
 
 
