@@ -3,6 +3,7 @@ package pl.emil7f.entity;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 // @Table(name="x_product") jeśli chcemy mieć inną nazwe tabeli w DB
@@ -26,6 +27,10 @@ public class Product {
     @Column(name = "type")
     @Enumerated(EnumType.STRING)  // Mapowanie enuma na pole, najlepiej uzywac enuma jako stringa (EnumType.ORDINAL zrobi nam z tego wartosci 0 1 2....
     private ProductType productType;
+
+    @OneToMany
+    @JoinColumn(name = "product_id")
+    private List<Review> reviews;
 
 
     public Long getId() {
@@ -84,16 +89,25 @@ public class Product {
         this.productType = productType;
     }
 
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", creationTime=" + created +
-                ", updateTime=" + updated +
+                ", created=" + created +
+                ", updated=" + updated +
                 ", price=" + price +
                 ", productType=" + productType +
+                ", reviews=" + reviews +
                 '}';
     }
 }
