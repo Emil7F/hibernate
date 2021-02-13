@@ -1,9 +1,7 @@
 package pl.emil7f.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 public class Review {
@@ -12,6 +10,9 @@ public class Review {
     private Long id;
     private String content;
     private int rating;
+
+    @ManyToOne(fetch = FetchType.LAZY)  // domyslnie jest EAGER i pobiera nam całą liste produktów na raz
+    private Product product;
 
     public Long getId() {
         return id;
@@ -44,5 +45,13 @@ public class Review {
                 ", content='" + content + '\'' +
                 ", rating=" + rating +
                 '}';
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }

@@ -28,8 +28,7 @@ public class Product {
     @Enumerated(EnumType.STRING)  // Mapowanie enuma na pole, najlepiej uzywac enuma jako stringa (EnumType.ORDINAL zrobi nam z tego wartosci 0 1 2....
     private ProductType productType;
 
-    @OneToMany
-    @JoinColumn(name = "product_id")
+    @OneToMany(mappedBy = "product")  // zmiana mapowania!!! zamiast @JoinColumn ustawiamy parametr mappedBy = "nazwa pola po drugiej stronie"
     private List<Review> reviews;
 
 
@@ -107,7 +106,7 @@ public class Product {
                 ", updated=" + updated +
                 ", price=" + price +
                 ", productType=" + productType +
-                ", reviews=" + reviews +
+            //    ", reviews=" + reviews + // usuwamy to pole ponieważ z jego powodu wykonujemy dodatkowe zapytania do DB
                 '}';
     }
 }
