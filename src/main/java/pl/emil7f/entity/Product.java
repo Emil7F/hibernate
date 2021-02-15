@@ -25,11 +25,16 @@ public class Product {
     private LocalDateTime updated;
     private BigDecimal price;
     @Column(name = "type")
-    @Enumerated(EnumType.STRING)  // Mapowanie enuma na pole, najlepiej uzywac enuma jako stringa (EnumType.ORDINAL zrobi nam z tego wartosci 0 1 2....
+    @Enumerated(EnumType.STRING)
+    // Mapowanie enuma na pole, najlepiej uzywac enuma jako stringa (EnumType.ORDINAL zrobi nam z tego wartosci 0 1 2....
     private ProductType productType;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)  // zmiana mapowania!!! zamiast @JoinColumn ustawiamy parametr mappedBy = "nazwa pola po drugiej stronie"
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
+    // zmiana mapowania!!! zamiast @JoinColumn ustawiamy parametr mappedBy = "nazwa pola po drugiej stronie"
     private List<Review> reviews;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    private Category category;
 
 
     public Long getId() {
@@ -96,6 +101,14 @@ public class Product {
         this.reviews = reviews;
     }
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -106,7 +119,7 @@ public class Product {
                 ", updated=" + updated +
                 ", price=" + price +
                 ", productType=" + productType +
-            //    ", reviews=" + reviews + // usuwamy to pole ponieważ z jego powodu wykonujemy dodatkowe zapytania do DB
+                //    ", reviews=" + reviews + // usuwamy to pole ponieważ z jego powodu wykonujemy dodatkowe zapytania do DB
                 '}';
     }
 }
