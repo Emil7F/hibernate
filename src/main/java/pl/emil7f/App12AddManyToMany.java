@@ -12,9 +12,11 @@ import javax.persistence.Persistence;
 
 /**
  * 12. ManyToMany Add
- *
+ * <p>
  * Najlepiej zamienić List na Set ze względu na to że hibernate nie jest pewny czy dane elementy listy są unikalne
  * wiec na początku wszystkie usuwa i dodaje na nowo, co może powodować problemy wydajnościowe
+ *
+ * Dodano całkowicie nowy atrybut
  */
 public class App12AddManyToMany {
 
@@ -28,7 +30,10 @@ public class App12AddManyToMany {
         em.getTransaction().begin();
 
         Product product = em.find(Product.class, 5L);
-        Attribute attribute = em.find(Attribute.class, 1L);
+
+        Attribute attribute = new Attribute();
+        attribute.setName("COLOR");
+        attribute.setValue("BLACK");
         product.addAttributes(attribute);
 
         em.getTransaction().commit();
