@@ -11,7 +11,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 /**
- * 13. OneToMany Add
+ * 13. OneToMany
+ * Przepisanie opinii do innego produktu
  */
 public class App13AddOneToMany {
 
@@ -25,10 +26,10 @@ public class App13AddOneToMany {
         em.getTransaction().begin();
 
         Product product = em.find(Product.class, 5L);
-        Review review = new Review();
-        review.setContent("Nowa Opinia ");
-        review.setRating(5);
+
+        Review review = em.find(Review.class, 12L);
         product.addReview(review);
+
 
         em.getTransaction().commit();
         em.close();
