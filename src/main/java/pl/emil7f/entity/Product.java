@@ -32,9 +32,9 @@ public class Product {
     // Mapowanie enuma na pole, najlepiej uzywac enuma jako stringa (EnumType.ORDINAL zrobi nam z tego wartosci 0 1 2....
     private ProductType productType;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "product", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     // zmiana mapowania!!! zamiast @JoinColumn ustawiamy parametr mappedBy = "nazwa pola po drugiej stronie"
-    private List<Review> reviews;
+    private List<Review> reviews = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
@@ -48,6 +48,11 @@ public class Product {
         attributes.add(attribute);           // dodajemy atrybut do listy wszystkich artrybutów
         attribute.getProducts().add(this);   // z uwagi na to ze jest to realacja ManyToMany,
         // musimy dodać też produkt z którego wywołujemy tą metode do listy produktów przekazywanego atrybutu
+    }
+
+    public void addReview(Review review) {
+        reviews.add(review);
+        review.setProduct(this);
     }
 
     public Long getId() {
@@ -143,4 +148,6 @@ public class Product {
                 //    ", reviews=" + reviews + // usuwamy to pole ponieważ z jego powodu wykonujemy dodatkowe zapytania do DB
                 '}';
     }
+
+
 }
