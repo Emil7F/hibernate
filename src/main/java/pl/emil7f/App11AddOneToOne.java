@@ -11,8 +11,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 /**
- * 11. OneToOne Update
- *      Pobranie produtku i zmiana jego kategorii
+ * 11. OneToOne Add
+ * Dodawanie nowej kategorii
  */
 public class App11AddOneToOne {
 
@@ -26,7 +26,10 @@ public class App11AddOneToOne {
         em.getTransaction().begin();
 
         Product product = em.find(Product.class, 3L);
-        Category category = em.find(Category.class, 2L);
+        Category category = new Category();
+        category.setName("Nowa Kategoria");
+        category.setDescription("Opis Kategorii");
+        em.persist(category);           // transient
         product.setCategory(category);
 
         em.getTransaction().commit();
