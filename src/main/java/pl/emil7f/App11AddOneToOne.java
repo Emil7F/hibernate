@@ -12,7 +12,7 @@ import javax.persistence.Persistence;
 
 /**
  * 11. OneToOne Add
- * Dodawanie nowej kategorii
+ * Dodawanie całkowicie nowej kategorii kaskadowo
  */
 public class App11AddOneToOne {
 

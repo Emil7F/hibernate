@@ -3,6 +3,7 @@ package pl.emil7f.entity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -16,7 +17,7 @@ public class Attribute {
     private String value;
 
     @ManyToMany(mappedBy = "attributes")
-    private Set<Product> products;
+    private Set<Product> products = new HashSet<>();
 
     public Long getId() {
         return id;
