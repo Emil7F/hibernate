@@ -19,6 +19,11 @@ public class Attribute {
     @ManyToMany(mappedBy = "attributes")
     private Set<Product> products = new HashSet<>();
 
+    public void removeProduct(Product product) {
+        products.remove(product);
+        product.getAttributes().remove(this);
+    }
+
     public Long getId() {
         return id;
     }
