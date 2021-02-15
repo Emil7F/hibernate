@@ -1,6 +1,7 @@
 package pl.emil7f.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Category {
@@ -11,8 +12,8 @@ public class Category {
     private String name;
     private String description;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "category")  // mappedBy="category" nazwa pola które mamy w produkcie
-    private Product product;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")// mappedBy="category" nazwa pola które mamy w produkcie
+    private List<Product> product;
 
     public Long getId() {
         return id;
@@ -38,11 +39,12 @@ public class Category {
         this.description = description;
     }
 
-    public Product getProduct() {
+    public List<Product> getProduct() {
         return product;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProduct(List<Product> products) {
+        this.product = products;
     }
 }
+

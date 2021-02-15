@@ -3,7 +3,6 @@ package pl.emil7f;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.emil7f.entity.Category;
-import pl.emil7f.entity.Product;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
