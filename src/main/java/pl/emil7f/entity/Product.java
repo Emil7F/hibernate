@@ -38,8 +38,7 @@ public class Product {
 
     @ManyToMany
     @JoinTable(joinColumns = {@JoinColumn(name = "product_id")},
-            inverseJoinColumns = {@JoinColumn(name = "attribute_id")}
-    )
+            inverseJoinColumns = {@JoinColumn(name = "attribute_id")})
     private List<Attribute> attributes;
 
     public Long getId() {
