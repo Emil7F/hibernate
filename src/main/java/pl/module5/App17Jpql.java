@@ -10,6 +10,7 @@ import java.util.List;
 /**
  * Proste zapytanie JPQL
  * pobieranie produktu z parametrem z zabezpieczeniem w NoResultException
+ * za pomocą metody getResultStream i obsługą Optionala
  */
 
 public class App17Jpql {
@@ -31,7 +32,9 @@ public class App17Jpql {
 
 
         try {
-            Product singleResult = query.getSingleResult();
+            Product singleResult = query.getResultStream()
+                    .findFirst()
+                    .orElseThrow(() -> new NoResultException());
             logger.info(singleResult);
             em.getTransaction().commit();
         } catch (NoResultException e) {
