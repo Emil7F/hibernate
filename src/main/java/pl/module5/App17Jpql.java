@@ -12,9 +12,7 @@ import java.util.List;
 
 /**
  * Proste zapytanie JPQL
- * gdzie w nazwie będzie   %04%
- *  % - wiele znaków
- *  ? - jeden znak
+ * pobieranie produktu z parametrem
  */
 
 public class App17Jpql {
@@ -28,9 +26,11 @@ public class App17Jpql {
         em.getTransaction().begin();
 
         TypedQuery<Product> query = em.createQuery(
-                "select p from Product p where p.name like '%04'",
+                "select p from Product p where p.id=:id",
                 Product.class
         );
+
+        query.setParameter("id",3L);
 
         List<Product> resultList = query.getResultList();
 
