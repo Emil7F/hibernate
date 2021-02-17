@@ -32,6 +32,7 @@ public class App05OneToMany {
 
     public static void main(String[] args) {
 
+
         EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
 
