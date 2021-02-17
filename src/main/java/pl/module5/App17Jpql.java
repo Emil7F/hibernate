@@ -12,6 +12,7 @@ import java.util.List;
 
 /**
  * Proste zapytanie JPQL
+ * posortowana po product.id w odwrotnym porządku
  */
 
 public class App17Jpql {
@@ -25,7 +26,7 @@ public class App17Jpql {
         em.getTransaction().begin();
 
         TypedQuery<Product> query = em.createQuery(
-                "select p from Product p",
+                "select p from Product p order by p.id desc",
                 Product.class
         );
 
