@@ -1,4 +1,4 @@
-package pl.emil7f;
+package pl.emil7f.module4relation;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,13 +9,13 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 /**
- * 3. Edycja encji
+ * 3. Odczyt encji
  */
-public class App03Update {
+public class App02Read {
 
 
-    private static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("unit");
-    private static Logger logger = LogManager.getLogger(Runner.class);
+    private static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("unit");
+    private static final Logger logger = LogManager.getLogger(Runner.class);
 
     public static void main(String[] args) {
 
@@ -23,9 +23,7 @@ public class App03Update {
         em.getTransaction().begin();
 
         Product product = em.find(Product.class, 1L);
-        product.setName("Rower 01 extended");
-        Product merged = em.merge(product);
-        logger.info(merged);
+        logger.info(product);
 
         em.getTransaction().commit();
         em.close();

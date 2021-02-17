@@ -1,4 +1,4 @@
-package pl.emil7f;
+package pl.emil7f.module4relation;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,8 +21,8 @@ import java.util.ArrayList;
 public class App15DeleteManyToMany {
 
 
-    private static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("unit");
-    private static Logger logger = LogManager.getLogger(Runner.class);
+    private static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("unit");
+    private static final Logger logger = LogManager.getLogger(Runner.class);
 
     public static void main(String[] args) {
 

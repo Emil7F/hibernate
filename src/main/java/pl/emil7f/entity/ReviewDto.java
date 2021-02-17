@@ -2,9 +2,9 @@ package pl.emil7f.entity;
 
 public class ReviewDto {
 
-    private Long id;
-    private String content;
-    private int rating;
+    private final Long id;
+    private final String content;
+    private final int rating;
 
     public ReviewDto(Long id, String content, int rating) {
         this.id = id;

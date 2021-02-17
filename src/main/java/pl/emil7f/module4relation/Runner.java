@@ -1,4 +1,4 @@
-package pl.emil7f;
+package pl.emil7f.module4relation;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,8 +16,8 @@ public class Runner {
      * Na koniec trzeba zrobić commit i zamknąć entityManager.close();
      * W ten sposób przygotowana aplikacja powinna się łączyć z bazą danych
      */
-    private static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("unit");
-    private static Logger logger = LogManager.getLogger(Runner.class);
+    private static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("unit");
+    private static final Logger logger = LogManager.getLogger(Runner.class);
 
     public static void main(String[] args) {
 
@@ -28,7 +28,6 @@ public class Runner {
 
         em.getTransaction().commit();
         em.close();
-
 
     }
 

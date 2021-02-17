@@ -1,9 +1,10 @@
-package pl.emil7f;
+package pl.emil7f.module4relation;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.emil7f.entity.Product;
 import pl.emil7f.entity.ProductType;
+import pl.emil7f.module4relation.Runner;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -18,8 +19,8 @@ import java.time.LocalDateTime;
 public class App01Create {
 
 
-    private static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("unit");
-    private static Logger logger = LogManager.getLogger(pl.emil7f.Runner.class);
+    private static final EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("unit");
+    private static final Logger logger = LogManager.getLogger(Runner.class);
 
     public static void main(String[] args) {
 
