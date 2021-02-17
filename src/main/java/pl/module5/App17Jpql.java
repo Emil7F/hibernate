@@ -4,15 +4,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.emil7f.entity.Product;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.List;
 
 /**
  * Proste zapytanie JPQL
- * pobieranie produktu z parametrem
+ * pobieranie produktu z parametrem z zabezpieczeniem w NoResultException
  */
 
 public class App17Jpql {
@@ -30,14 +27,20 @@ public class App17Jpql {
                 Product.class
         );
 
-        query.setParameter("id", 4L);
+        query.setParameter("id", 10000L);
 
-        Product singleResult = query.getSingleResult();
 
-        logger.info(singleResult);
+        try {
+            Product singleResult = query.getSingleResult();
+            logger.info(singleResult);
+            em.getTransaction().commit();
+        } catch (NoResultException e) {
+            logger.error("Brak wyników........", e);
+        } finally {
+            em.close();
+        }
 
-        em.getTransaction().commit();
-        em.close();
+
     }
 
 }
