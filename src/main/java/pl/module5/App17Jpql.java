@@ -12,7 +12,9 @@ import java.util.List;
 
 /**
  * Proste zapytanie JPQL
- * posortowana po product.id w odwrotnym porządku
+ * gdzie w nazwie będzie   %04%
+ *  % - wiele znaków
+ *  ? - jeden znak
  */
 
 public class App17Jpql {
@@ -26,7 +28,7 @@ public class App17Jpql {
         em.getTransaction().begin();
 
         TypedQuery<Product> query = em.createQuery(
-                "select p from Product p order by p.id desc",
+                "select p from Product p where p.name like '%04'",
                 Product.class
         );
 
