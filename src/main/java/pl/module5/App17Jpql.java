@@ -22,12 +22,16 @@ public class App17Jpql {
         em.getTransaction().begin();
 
         Query query = em.createQuery(
-                "select count(p), avg (p.price) from Product p "
+                "select count(p)  from Product p  group by p.category"
         );
 
 
-        Object[] result = (Object[]) query.getSingleResult();
-        logger.info(result[0] + " , " + result[1]);
+        List<Long> resultList = query.getResultList();
+        for (Long aLong:resultList) {
+            logger.info(aLong);
+        }
+
+
 
         em.getTransaction().commit();
         em.close();
