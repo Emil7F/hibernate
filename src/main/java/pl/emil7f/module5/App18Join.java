@@ -18,6 +18,9 @@ import java.util.List;
  *     Takie query zadziała, ale po przeanalizowaniu logów można zobaczyć że hibernate wykonuje dwa zapytania do bazy danych
  *     pomimo tego że zastosowalismy inner join'a
  *     dzieje się tak ze wzgledu na fakt ze hibernate pobiera powiązanie tabele leniwie
+ *
+ *     Rozwiązaniem jest wstawienie słowa kluczowego FETCH - które sprawi że wszystko pobierze się jednym zapytaniem
+ *
  */
 
 public class App18Join {
@@ -29,7 +32,7 @@ public class App18Join {
         em.getTransaction().begin();
 
         TypedQuery<Product> query = em.createQuery("select p from Product p " +
-                "inner join p.category c " +
+                "inner join fetch p.category c " +
                 "where c.id=:id", Product.class);
 
         query.setParameter("id", 1L);
