@@ -1,8 +1,7 @@
-package pl.module5;
+package pl.emil7f.module5;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import pl.emil7f.entity.Product;
 
 import javax.persistence.*;
 import java.util.List;
