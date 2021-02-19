@@ -46,5 +46,14 @@ public class Category {
     public void setProduct(List<Product> products) {
         this.product = products;
     }
+
+    @Override
+    public String  toString() {
+        return "Category{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }
 
