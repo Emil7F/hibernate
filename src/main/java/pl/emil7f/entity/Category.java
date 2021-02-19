@@ -2,6 +2,7 @@ package pl.emil7f.entity;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Category {
@@ -13,7 +14,7 @@ public class Category {
     private String description;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")// mappedBy="category" nazwa pola które mamy w produkcie
-    private List<Product> product;
+    private Set<Product> product;
 
     public Long getId() {
         return id;
@@ -39,11 +40,11 @@ public class Category {
         this.description = description;
     }
 
-    public List<Product> getProduct() {
+    public Set<Product> getProduct() {
         return product;
     }
 
-    public void setProduct(List<Product> products) {
+    public void setProduct(Set<Product> products) {
         this.product = products;
     }
 

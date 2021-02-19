@@ -18,6 +18,7 @@ import java.util.List;
  *      Problem lezy w implementacji listy, hibernate ma swoją implementacje listy o nazwie:
  *      PersistentBag
  *      Rozwiązań tego problemu jest kilka, najprostsze to zamiana listy na sety
+ *      Lecz powoduje on kolejny problem czyli problem produktu kartezjańskiego
  *
  */
 
