@@ -16,6 +16,8 @@ import java.util.List;
  *
  * Wielkość listy wynosi: 125
  * Jest 5 produktów, które mają po 5 atrybutów i kazdy produkt ma 5 opinii
+ *  Mozna to rozwiązać za pomocą słowa distinct oraz skrócić zapytanie żeby dodatkowe tabele pobierały się leniwie
+ *  z tym że pojawiają się nam dodatkowe zapytania, czyli problem n+1
  */
 public class App20CartesianProduct {
     private static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("unit");
@@ -27,9 +29,8 @@ public class App20CartesianProduct {
         em.getTransaction().begin();
 
         TypedQuery<Product> query = em.createQuery(
-                "select p from Product p " +
-                        " left join fetch p.attributes " +
-                        " left join  fetch p.reviews",
+                "select distinct p from Product p " +
+                        " left join fetch p.attributes ",
                 Product.class);
 
         List<Product> resultList = query.getResultList();
