@@ -14,10 +14,15 @@ import java.util.List;
  * Produkt kartezjański to produkt który powstaje w wyniku mnożenia dwóch zbiorów
  * Jeśli pobieramy dane z bazy danych z pomocą join'a to dane pobierane są w taki sposób
  *
- * Wielkość listy wynosi: 125
- * Jest 5 produktów, które mają po 5 atrybutów i kazdy produkt ma 5 opinii
- *  Mozna to rozwiązać za pomocą słowa distinct oraz skrócić zapytanie żeby dodatkowe tabele pobierały się leniwie
- *  z tym że pojawiają się nam dodatkowe zapytania, czyli problem n+1
+ * // Wielkość listy wynosi: 125
+ * // Jest 5 produktów, które mają po 5 atrybutów i kazdy produkt ma 5 opinii
+ * // Mozna to rozwiązać za pomocą słowa distinct oraz skrócić zapytanie żeby dodatkowe tabele pobierały się leniwie
+ * // z tym że pojawiają się nam dodatkowe zapytania, czyli problem n+1
+ *
+ *  W poniższy sposób hibernate pobierze produkty wraz z atrybutami za pierszym razem ( w jednej sesji )
+ *  a w drugim zapytaniu pobierze produkty oraz opinie i połączy nam wyniki w całość
+ *  (intelliJ wyszarza część kodu ale w tym momencie to tak nie działa.
+ *
  */
 public class App20CartesianProduct {
     private static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("unit");
@@ -28,12 +33,18 @@ public class App20CartesianProduct {
         EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
 
-        TypedQuery<Product> query = em.createQuery(
+        List<Product> resultList = em.createQuery(
                 "select distinct p from Product p " +
                         " left join fetch p.attributes ",
-                Product.class);
+                Product.class).getResultList();
 
-        List<Product> resultList = query.getResultList();
+         resultList = em.createQuery(
+                "select distinct p from Product p " +
+                        " left join fetch p.reviews ",
+                Product.class).getResultList();
+
+
+
         logger.info("Size: " + resultList.size());
         for (Product product : resultList) {
             logger.info(product);
