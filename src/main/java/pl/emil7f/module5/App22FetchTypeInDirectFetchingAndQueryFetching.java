@@ -13,6 +13,7 @@ import javax.persistence.Persistence;
  * Category pobiera się gorliwie
  * Reviews pobiera się gorliwie
  * Są trzy zapytania które pobierają się natychmiast, nawet jeśli nie będziemy potrzebować tych danych to one się nam pobiorą ( w dod. zapytaniach)
+ * Dalej są trzy zapytania pomimo że dodaliśmy left join, a to dlatego że brakuje słowa fetch
  *
  *
  Hibernate:
@@ -27,8 +28,12 @@ import javax.persistence.Persistence;
  product0_.updated as updated7_5_
  from
  Product product0_
+ left outer join
+ Category category1_
+ on product0_.category_id=category1_.id
  where
  product0_.id=?
+ and category1_.id=?
 
  Hibernate:
  select
@@ -52,9 +57,9 @@ import javax.persistence.Persistence;
  Review reviews0_
  where
  reviews0_.product_id=?
- 2021-02-21 20:41:04.236 INFO  [main] App22FetchTypeInDirectFetchingAndQueryFetching - Product{id=1, name='Rower 01', description='To jest opis produktu', created=2020-07-22T15:29:39, updated=2020-07-22T15:29:39, price=19.99, productType=REAL}
- 2021-02-21 20:41:04.236 INFO  [main] App22FetchTypeInDirectFetchingAndQueryFetching - Category{id=1, name='Kategoria 1', description='Opis 1'}
- 2021-02-21 20:41:04.236 INFO  [main] App22FetchTypeInDirectFetchingAndQueryFetching - [Review{id=1, content='Treść opinii 1', rating=5}, Review{id=2, content='Treść opinii 2', rating=5}, Review{id=4, content='Treść opinii 4', rating=5}, Review{id=5, content='Treść opinii 5', rating=5}, Review{id=3, content='Treść opinii 3', rating=5}]
+ 2021-02-21 20:45:01.573 INFO  [main] App22FetchTypeInDirectFetchingAndQueryFetching - Product{id=1, name='Rower 01', description='To jest opis produktu', created=2020-07-22T15:29:39, updated=2020-07-22T15:29:39, price=19.99, productType=REAL}
+ 2021-02-21 20:45:01.573 INFO  [main] App22FetchTypeInDirectFetchingAndQueryFetching - Category{id=1, name='Kategoria 1', description='Opis 1'}
+ 2021-02-21 20:45:01.574 INFO  [main] App22FetchTypeInDirectFetchingAndQueryFetching - [Review{id=1, content='Treść opinii 1', rating=5}, Review{id=5, content='Treść opinii 5', rating=5}, Review{id=3, content='Treść opinii 3', rating=5}, Review{id=2, content='Treść opinii 2', rating=5}, Review{id=4, content='Treść opinii 4', rating=5}]
 
  Process finished with exit code 0
 
@@ -72,9 +77,11 @@ public class App22FetchTypeInDirectFetchingAndQueryFetching {
 
         Product product = em.createQuery(
                 "select p from Product p " +
-                        "where p.id=:id",
+                        "left join p.category c " +
+                        "where p.id=:id and c.id = :catId",
                 Product.class)
                 .setParameter("id", 1L)
+                .setParameter("catId", 1L)
                 .getSingleResult();
 
         logger.info(product);
