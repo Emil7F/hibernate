@@ -11,7 +11,10 @@ import javax.persistence.Persistence;
 /**
  * Jak mogą się zmieniać zapytania gdy korzystamy z róznych parametrów zapytania FetchType - find()
  * Category pobiera się gorliwie
- * Hibernate generuje left outer join, czyli w pojedyńczym select'cie probuje on optymalizować pobieranie powiązanych relacji poprzez join'a
+ * Reviews pobiera się leniwie
+ * Hibernate generuje left outer join przy zapytaniu do Category,
+ * czyli w pojedyńczym select'cie probuje on optymalizować pobieranie powiązanych relacji poprzez join'a
+ * Jest drugi select dla reviews
  *
  Hibernate:
  select
@@ -33,8 +36,23 @@ import javax.persistence.Persistence;
  on product0_.category_id=category1_.id
  where
  product0_.id=?
- 2021-02-21 20:29:10.364 INFO  [main] App22FetchTypeInDirectFetchingAndQueryFetching - Product{id=1, name='Rower 01', description='To jest opis produktu', created=2020-07-22T15:29:39, updated=2020-07-22T15:29:39, price=19.99, productType=REAL}
- 2021-02-21 20:29:10.364 INFO  [main] App22FetchTypeInDirectFetchingAndQueryFetching - Category{id=1, name='Kategoria 1', description='Opis 1'}
+ 2021-02-21 20:32:16.153 INFO  [main] App22FetchTypeInDirectFetchingAndQueryFetching - Product{id=1, name='Rower 01', description='To jest opis produktu', created=2020-07-22T15:29:39, updated=2020-07-22T15:29:39, price=19.99, productType=REAL}
+ 2021-02-21 20:32:16.153 INFO  [main] App22FetchTypeInDirectFetchingAndQueryFetching - Category{id=1, name='Kategoria 1', description='Opis 1'}
+
+
+ Hibernate:
+ select
+ reviews0_.product_id as product_4_7_0_,
+ reviews0_.id as id1_7_0_,
+ reviews0_.id as id1_7_1_,
+ reviews0_.content as content2_7_1_,
+ reviews0_.product_id as product_4_7_1_,
+ reviews0_.rating as rating3_7_1_
+ from
+ Review reviews0_
+ where
+ reviews0_.product_id=?
+ 2021-02-21 20:32:16.168 INFO  [main] App22FetchTypeInDirectFetchingAndQueryFetching - [Review{id=4, content='Treść opinii 4', rating=5}, Review{id=1, content='Treść opinii 1', rating=5}, Review{id=5, content='Treść opinii 5', rating=5}, Review{id=3, content='Treść opinii 3', rating=5}, Review{id=2, content='Treść opinii 2', rating=5}]
 
 
  * */
@@ -53,6 +71,7 @@ public class App22FetchTypeInDirectFetchingAndQueryFetching {
 
         logger.info(product);
         logger.info(product.getCategory());
+        logger.info(product.getReviews());
 
 
         em.getTransaction().commit();
