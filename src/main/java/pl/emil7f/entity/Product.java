@@ -32,7 +32,7 @@ public class Product {
     // Mapowanie enuma na pole, najlepiej uzywac enuma jako stringa (EnumType.ORDINAL zrobi nam z tego wartosci 0 1 2....
     private ProductType productType;
 
-    @OneToMany(mappedBy = "product", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @OneToMany(mappedBy = "product", cascade = {CascadeType.REMOVE, CascadeType.PERSIST}, fetch = FetchType.EAGER)
     // zmiana mapowania!!! zamiast @JoinColumn ustawiamy parametr mappedBy = "nazwa pola po drugiej stronie"
     private Set<Review> reviews = new HashSet<>();
 
