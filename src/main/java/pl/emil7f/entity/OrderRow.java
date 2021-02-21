@@ -12,6 +12,20 @@ public class OrderRow {
     private Long id;
     private BigDecimal price;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    private Product product;
+
+
+    public Product getProduct() {
+        return product;
+    }
+
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
     public Long getId() {
         return id;
     }
@@ -26,5 +40,13 @@ public class OrderRow {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderRow{" +
+                "id=" + id +
+                ", price=" + price +
+                '}';
     }
 }

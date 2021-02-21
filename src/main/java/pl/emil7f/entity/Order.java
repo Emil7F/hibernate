@@ -3,6 +3,7 @@ package pl.emil7f.entity;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Table(name = "\"order\"")
@@ -14,6 +15,17 @@ public class Order {
     private LocalDateTime created;
     private BigDecimal total;
 
+    @OneToMany
+    @JoinColumn(name = "order_id")
+    private Set<OrderRow> orderRows;
+
+    public Set<OrderRow> getOrderRows() {
+        return orderRows;
+    }
+
+    public void setOrderRows(Set<OrderRow> orderRows) {
+        this.orderRows = orderRows;
+    }
 
     public Long getId() {
         return id;
@@ -39,4 +51,12 @@ public class Order {
         this.total = total;
     }
 
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", created=" + created +
+                ", total=" + total +
+                '}';
+    }
 }

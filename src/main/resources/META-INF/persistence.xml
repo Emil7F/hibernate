@@ -8,6 +8,9 @@
         <class>pl.emil7f.entity.Review</class>
         <class>pl.emil7f.entity.Category</class>
         <class>pl.emil7f.entity.Attribute</class>
+        <class>pl.emil7f.entity.Customer</class>
+        <class>pl.emil7f.entity.OrderRow</class>
+        <class>pl.emil7f.entity.Order</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>

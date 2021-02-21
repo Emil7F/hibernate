@@ -1,10 +1,9 @@
 package pl.emil7f.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Customer {
@@ -16,6 +15,18 @@ public class Customer {
     private String lastname;
     private LocalDateTime created;
     private LocalDateTime updated;
+
+    @OneToMany
+    @JoinColumn(name = "customer_id")
+    private Set<Order> orders;
+
+    public Set<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Set<Order> orders) {
+        this.orders = orders;
+    }
 
     public Long getId() {
         return id;
@@ -55,5 +66,16 @@ public class Customer {
 
     public void setUpdated(LocalDateTime updated) {
         this.updated = updated;
+    }
+
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", created=" + created +
+                ", updated=" + updated +
+                '}';
     }
 }

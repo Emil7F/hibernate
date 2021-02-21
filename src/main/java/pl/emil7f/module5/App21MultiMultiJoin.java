@@ -3,11 +3,14 @@ package pl.emil7f.module5;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import pl.emil7f.entity.Customer;
+import pl.emil7f.entity.Order;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import java.util.List;
 
 /**
  * Stworzenie nowych tabel oraz aktualizacja danych
@@ -35,13 +38,24 @@ public class App21MultiMultiJoin {
          */
 
         Query query = em.createQuery(
-                " select c from Customer c " +
+                " select distinct c from Customer c " +
                         "inner join fetch c.orders o " +
                         "inner join fetch o.orderRows orw " +
                         "inner join fetch orw.product p " +
                         "inner join fetch p.category ca "
         );
 
+
+        List<Customer> resultList = query.getResultList();
+
+        for (Customer customer : resultList) {
+            logger.info(customer);
+            for (Order order : customer.getOrders()) {
+                logger.info(order);
+                logger.info(order.getOrderRows());
+            }
+
+        }
 
         em.getTransaction().commit();
         em.close();
