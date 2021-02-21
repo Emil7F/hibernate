@@ -9,12 +9,11 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 /**
- * Jak mogą się zmieniać zapytania gdy korzystamy z róznych parametrów zapytania FetchType - JPQL wartosci domyślne
- * Category pobiera się leniwie  (dwa selecty po product i po category)
- * LAZY, EAGER
+ * Jak mogą się zmieniać zapytania gdy korzystamy z róznych parametrów zapytania FetchType - JPQL
+ * Category pobiera się gorliwie   (dwa selecty po product i po category pobierają od razu wszystko i są dwa logi na końcu)
+ * W tym miejscu zmienił się moment kiedy zostało wywołane drugie zapytanie
  *
  Hibernate:
-
  select
  product0_.id as id1_5_,
  product0_.category_id as category8_5_,
@@ -28,9 +27,7 @@ import javax.persistence.Persistence;
  Product product0_
  where
  product0_.id=?
- 2021-02-21 20:13:51.369 INFO  [main] App22FetchTypeInDirectFetchingAndQueryFetching - Product{id=1, name='Rower 01', description='To jest opis produktu', created=2020-07-22T15:29:39, updated=2020-07-22T15:29:39, price=19.99, productType=REAL}
  Hibernate:
-
  select
  category0_.id as id1_1_0_,
  category0_.description as descript2_1_0_,
@@ -39,7 +36,8 @@ import javax.persistence.Persistence;
  Category category0_
  where
  category0_.id=?
- 2021-02-21 20:13:51.378 INFO  [main] App22FetchTypeInDirectFetchingAndQueryFetching - Category{id=1, name='Kategoria 1', description='Opis 1'}
+ 2021-02-21 20:18:49.416 INFO  [main] App22FetchTypeInDirectFetchingAndQueryFetching - Product{id=1, name='Rower 01', description='To jest opis produktu', created=2020-07-22T15:29:39, updated=2020-07-22T15:29:39, price=19.99, productType=REAL}
+ 2021-02-21 20:18:49.417 INFO  [main] App22FetchTypeInDirectFetchingAndQueryFetching - Category{id=1, name='Kategoria 1', description='Opis 1'}
 
 
  */
