@@ -36,7 +36,7 @@ public class Product {
     // zmiana mapowania!!! zamiast @JoinColumn ustawiamy parametr mappedBy = "nazwa pola po drugiej stronie"
     private Set<Review> reviews = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
 
     @ManyToMany(cascade = CascadeType.PERSIST)
