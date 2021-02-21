@@ -13,7 +13,10 @@ import javax.persistence.Query;
 import java.util.List;
 
 /**
- * Stworzenie nowych tabel oraz aktualizacja danych
+ * W zapytaniu może wystąpić błąd QueryException z powodu fetch'a
+ * Trzeba usunąć słowo kluczowe fetch wszędzie tam gdzie nie korzystamy z wyników fetch'a ( w tym przypadku z kazdego join'a)
+ * <p>
+ * having nie odczytuje aliasów
  */
 
 public class App21MultiMultiJoin {
@@ -38,22 +41,22 @@ public class App21MultiMultiJoin {
          */
 
         Query query = em.createQuery(
-                " select distinct c from Customer c " +
-                        "inner join fetch c.orders o " +
-                        "inner join fetch o.orderRows orw " +
-                        "inner join fetch orw.product p " +
-                        "inner join fetch p.category ca "
+                " select distinct c.id,  c.lastname as customer, ca.name as category, SUM(orw.price) as total" +
+                        " from Customer c " +
+                        "inner join  c.orders o " +
+                        "inner join  o.orderRows orw " +
+                        "inner join  orw.product p " +
+                        "inner join  p.category ca " +
+                        "group by  ca , c  " +
+                        " having SUM(orw.price) > 50 " +
+                        "order by total desc "
         );
 
 
-        List<Customer> resultList = query.getResultList();
+        List<Object[]> resultList = query.getResultList();
 
-        for (Customer customer : resultList) {
-            logger.info(customer);
-            for (Order order : customer.getOrders()) {
-                logger.info(order);
-                logger.info(order.getOrderRows());
-            }
+        for (Object[] row : resultList) {
+            logger.info(row[0] + " , " + row[1] + " , " + row[2] + " , " + row[3]);
 
         }
 
