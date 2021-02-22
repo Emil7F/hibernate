@@ -12,29 +12,34 @@ import javax.persistence.Persistence;
  *   Pobieramy Order za pomocą find, a OrderRow dociąga się leniwie (FetchType.LAZY)
  *   FetchMode.SELECT - domyślny
  *   FetchMode.JOIN - w zapytaniu zostanie zastosowany dodatkowy left outer join
- *   FetchMode.SUBSELECT
+ *   FetchMode.SUBSELECT - w stosunku do SELECT zapytanie się nie zmienia w tym przypadku
+ *   dzieje się tak dlatego że opcja SUBSELECT generuje dodatkowe podzapytanie dopiero w sytuacji gdy pobieramy listę osobnym zapytaniem select
+ *   a nie poprzez metode find, w metodzie find nie daje to żadnego efektu
  *
  Hibernate:
  select
  order0_.id as id1_3_0_,
  order0_.created as created2_3_0_,
- order0_.total as total3_3_0_,
- orderrows1_.order_id as order_id4_4_1_,
- orderrows1_.id as id1_4_1_,
- orderrows1_.id as id1_4_2_,
- orderrows1_.price as price2_4_2_,
- orderrows1_.product_id as product_3_4_2_
+ order0_.total as total3_3_0_
  from
  `
- order` order0_ left outer join
- order_row orderrows1_
- on order0_.id=orderrows1_.order_id
- where
+ order` order0_ where
  order0_.id=?
- 2021-02-22 18:56:22.134 INFO  [main] App23FetchMode - Order{id=1, created=2020-10-10T14:00, total=59.97}
- 2021-02-22 18:56:22.134 INFO  [main] App23FetchMode - [OrderRow{id=1, price=19.99}, OrderRow{id=2, price=19.99}, OrderRow{id=3, price=19.99}]
+ 2021-02-22 18:58:21.769 INFO  [main] App23FetchMode - Order{id=1, created=2020-10-10T14:00, total=59.97}
 
- Process finished with exit code 0
+ Hibernate:
+ select
+ orderrows0_.order_id as order_id4_4_0_,
+ orderrows0_.id as id1_4_0_,
+ orderrows0_.id as id1_4_1_,
+ orderrows0_.price as price2_4_1_,
+ orderrows0_.product_id as product_3_4_1_
+ from
+ order_row orderrows0_
+ where
+ orderrows0_.order_id=?
+ 2021-02-22 18:58:21.785 INFO  [main] App23FetchMode - [OrderRow{id=3, price=19.99}, OrderRow{id=2, price=19.99}, OrderRow{id=1, price=19.99}]
+
 
  *
  */
