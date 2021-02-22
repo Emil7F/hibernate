@@ -20,7 +20,6 @@ public class Order {
 
     @OneToMany
     @JoinColumn(name = "order_id")
-    @Fetch(FetchMode.SUBSELECT)
     private Set<OrderRow> orderRows;
 
     public Set<OrderRow> getOrderRows() {
