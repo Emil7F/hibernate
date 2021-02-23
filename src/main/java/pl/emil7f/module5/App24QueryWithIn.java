@@ -20,7 +20,7 @@ public class App24QueryWithIn {
 
         List<Order> orders = em.createQuery(
                 "select o from Order o " +
-                        "where id in (:ids)",
+                        "where id not in (:ids)",
                 Order.class)
                 .setParameter("ids", Arrays.asList(1L, 3L, 5L))
                 .getResultList();
