@@ -26,7 +26,7 @@ public class Order {
     @JoinColumn(name = "order_id")
     private Set<OrderRow> orderRows;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private Customer customer;
 
     public Customer getCustomer() {

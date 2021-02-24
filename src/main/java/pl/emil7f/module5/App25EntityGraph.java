@@ -13,29 +13,12 @@ import java.util.Map;
 
 /**
 NamedGraph
- Jeśli nie podamy mapy jako trzeci parametr properties to w zapytaniu hibernate w drugim zapytaniu dociągnie leniwie OrderRows
 
-Hibernate:
-    select
-        order0_.id as id1_3_0_,
-        order0_.created as created2_3_0_,
-        order0_.total as total3_3_0_,
-        orderrows1_.order_id as order_id4_4_1_,
-        orderrows1_.id as id1_4_1_,
-        orderrows1_.id as id1_4_2_,
-        orderrows1_.price as price2_4_2_,
-        orderrows1_.product_id as product_3_4_2_
-    from
-        `
-    order` order0_ left outer join
-        order_row orderrows1_
-            on order0_.id=orderrows1_.order_id
-    where
-        order0_.id=?
-2021-02-24 18:38:34.082 INFO  [main] App25EntityGraph - Order{id=1, created=2020-10-10T14:00, total=59.97}
-2021-02-24 18:38:34.082 INFO  [main] App25EntityGraph - [OrderRow{id=3, price=19.99}, OrderRow{id=2, price=19.99}, OrderRow{id=1, price=19.99}]
+ fetchgraph - to sprawia on że tylko właściwości zdefiniowane w grafie są pobierane natychmiast - czyli EAGER
+ cała reszta będzie pobierana LAZY
 
-
+ loadgraph - właściwości w grafie będą pobierane natychmiast - EAGER, a wszystkie inne zdefiniowane w encji będą zachowywały
+ swój domyślny fetchType
  */
 
 public class  App25EntityGraph {
@@ -50,7 +33,7 @@ public class  App25EntityGraph {
 
         Map<String, Object> map = new HashMap<>();
 
-        map.put("javax.persistence.fetchgraph", entityGraph);
+        map.put("javax.persistence.loadgraph", entityGraph);
 
         Order order = em.find(Order.class, 1L, map);
 
