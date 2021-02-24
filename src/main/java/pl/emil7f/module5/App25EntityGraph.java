@@ -5,21 +5,13 @@ import org.apache.logging.log4j.Logger;
 import pl.emil7f.entity.Order;
 import pl.emil7f.entity.OrderRow;
 
-import javax.persistence.EntityGraph;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
 NamedGraph
-
- fetchgraph - to sprawia on że tylko właściwości zdefiniowane w grafie są pobierane natychmiast - czyli EAGER
- cała reszta będzie pobierana LAZY
-
- loadgraph - właściwości w grafie będą pobierane natychmiast - EAGER, a wszystkie inne zdefiniowane w encji będą zachowywały
- swój domyślny fetchType
+ Alternatywny sposób tworzenia grafów, bardziej dynamiczny
  */
 
 public class  App25EntityGraph {
@@ -30,7 +22,11 @@ public class  App25EntityGraph {
         EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
 
-        EntityGraph entityGraph = em.getEntityGraph("order-rows");
+        EntityGraph entityGraph = em.createEntityGraph(Order.class);
+        entityGraph.addAttributeNodes("orderRows");
+        entityGraph.addAttributeNodes("customer");
+        Subgraph<OrderRow> orderRows = entityGraph.addSubgraph("orderRows");
+        orderRows.addAttributeNodes("product");
 
         Map<String, Object> map = new HashMap<>();
 
