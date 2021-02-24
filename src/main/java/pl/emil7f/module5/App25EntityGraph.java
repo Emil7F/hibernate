@@ -3,6 +3,7 @@ package pl.emil7f.module5;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.emil7f.entity.Order;
+import pl.emil7f.entity.OrderRow;
 
 import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
@@ -38,8 +39,12 @@ public class  App25EntityGraph {
         Order order = em.find(Order.class, 1L, map);
 
         logger.info(order);
-        logger.info(order.getOrderRows());
-        logger.info(order.getCustomer());
+        for(OrderRow orderRow : order.getOrderRows()){
+            logger.info(orderRow);
+            logger.info(orderRow.getProduct());
+        }
+
+
 
 
         em.getTransaction().commit();

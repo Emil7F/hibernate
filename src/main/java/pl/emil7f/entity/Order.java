@@ -8,9 +8,13 @@ import java.util.Set;
 @NamedEntityGraph(
         name = "order-rows",
         attributeNodes = {
-                @NamedAttributeNode("orderRows"),
-                @NamedAttributeNode("customer")
-        }
+                @NamedAttributeNode(value = "orderRows", subgraph = "orderRows"),
+                @NamedAttributeNode("customer"),
+        }, subgraphs = {
+                @NamedSubgraph(
+                        name = "orderRows",
+                        attributeNodes = @NamedAttributeNode("product"))
+}
 )
 @Entity
 @Table(name = "\"order\"")
