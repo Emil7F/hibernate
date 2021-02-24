@@ -7,14 +7,15 @@ import pl.emil7f.entity.OrderRow;
 
 import javax.persistence.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
-NamedGraph
- Alternatywny sposób tworzenia grafów, bardziej dynamiczny
+ * NamedGraph
+ * Alternatywny sposób tworzenia grafów, bardziej dynamiczny
  */
 
-public class  App25EntityGraph {
+public class App25EntityGraph {
     private static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("unit");
     private static Logger logger = LogManager.getLogger(App25EntityGraph.class);
 
@@ -28,19 +29,19 @@ public class  App25EntityGraph {
         Subgraph<OrderRow> orderRows = entityGraph.addSubgraph("orderRows");
         orderRows.addAttributeNodes("product");
 
-        Map<String, Object> map = new HashMap<>();
+        List<Order> orders = em.createQuery(
+                "select o from Order o ",
+                Order.class)
+                .setHint("javax.persistence.fetchgraph", entityGraph)
+                .getResultList();
 
-        map.put("javax.persistence.loadgraph", entityGraph);
-
-        Order order = em.find(Order.class, 1L, map);
-
-        logger.info(order);
-        for(OrderRow orderRow : order.getOrderRows()){
-            logger.info(orderRow);
-            logger.info(orderRow.getProduct());
+        for (Order order : orders) {
+            logger.info(order);
+            for (OrderRow orderRow : order.getOrderRows()) {
+                logger.info(orderRow);
+                logger.info(orderRow.getProduct());
+            }
         }
-
-
 
 
         em.getTransaction().commit();
