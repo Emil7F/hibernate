@@ -1,8 +1,5 @@
 package pl.emil7f.entity;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -10,7 +7,10 @@ import java.util.Set;
 
 @NamedEntityGraph(
         name = "order-rows",
-        attributeNodes = @NamedAttributeNode("orderRows")
+        attributeNodes = {
+                @NamedAttributeNode("orderRows"),
+                @NamedAttributeNode("customer")
+        }
 )
 @Entity
 @Table(name = "\"order\"")
@@ -25,6 +25,17 @@ public class Order {
     @OneToMany
     @JoinColumn(name = "order_id")
     private Set<OrderRow> orderRows;
+
+    @OneToOne
+    private Customer customer;
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 
     public Set<OrderRow> getOrderRows() {
         return orderRows;

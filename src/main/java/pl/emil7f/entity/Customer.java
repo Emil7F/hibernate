@@ -2,7 +2,6 @@ package pl.emil7f.entity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -16,8 +15,7 @@ public class Customer {
     private LocalDateTime created;
     private LocalDateTime updated;
 
-    @OneToMany
-    @JoinColumn(name = "customer_id")
+    @OneToMany(mappedBy = "customer")
     private Set<Order> orders;
 
     public Set<Order> getOrders() {

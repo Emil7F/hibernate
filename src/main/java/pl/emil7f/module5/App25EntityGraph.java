@@ -56,6 +56,8 @@ public class  App25EntityGraph {
 
         logger.info(order);
         logger.info(order.getOrderRows());
+        logger.info(order.getCustomer());
+
 
         em.getTransaction().commit();
         em.close();
