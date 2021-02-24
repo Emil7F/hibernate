@@ -30,9 +30,10 @@ public class App25EntityGraph {
         orderRows.addAttributeNodes("product");
 
         List<Order> orders = em.createQuery(
-                "select o from Order o ",
+                "select o from Order o " +
+                        "left join fetch o.customer ",
                 Order.class)
-                .setHint("javax.persistence.fetchgraph", entityGraph)
+                .setHint("javax.persistence.loadgraph", entityGraph)
                 .getResultList();
 
         for (Order order : orders) {
