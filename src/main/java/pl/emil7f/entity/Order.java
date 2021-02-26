@@ -5,17 +5,24 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
 
-@NamedEntityGraph(
-        name = "order-rows",
-        attributeNodes = {
-                @NamedAttributeNode(value = "orderRows", subgraph = "orderRows"),
-                @NamedAttributeNode("customer"),
-        }, subgraphs = {
+@NamedEntityGraphs({
+        @NamedEntityGraph(
+                name = "order-rows",
+                attributeNodes = {
+                        @NamedAttributeNode(value = "orderRows", subgraph = "orderRows"),
+                        @NamedAttributeNode("customer"),
+                }, subgraphs = {
                 @NamedSubgraph(
                         name = "orderRows",
                         attributeNodes = @NamedAttributeNode("product"))
-}
-)
+        }
+        ),
+        @NamedEntityGraph(
+                name = "order-and-rows",
+                attributeNodes = @NamedAttributeNode(value = "orderRows")
+        )
+})
+
 @Entity
 @Table(name = "\"order\"")
 public class Order {

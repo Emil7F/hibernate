@@ -4,10 +4,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import pl.emil7f.entity.Order;
 
+import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /*
@@ -22,11 +25,18 @@ public class App26NplusOne {
         EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
 
+        EntityGraph entityGraph = em.getEntityGraph("order-and-rows");
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("javax.persistence.fetchgraph", entityGraph);
+
         List<Order> products = em.createQuery(
-                "select distinct o from Order o" +
-                        " inner join fetch o.orderRows ",
-                Order.class)
+                "select o from Order o",
+                Order.class
+        )
+                .setHint("javax.persistence.fetchgraph", entityGraph)
                 .getResultList();
+
 
         logger.info("Ilość rekordów: " + products.size());
 
