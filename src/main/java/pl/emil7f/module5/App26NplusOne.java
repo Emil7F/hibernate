@@ -12,6 +12,7 @@ import java.util.List;
 
 /*
 Problem n+1
+Rozwiązanie nr1 z dodatkowym joinem, ale duplikują się rekordy
  */
 public class App26NplusOne {
     private static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("unit");
@@ -22,7 +23,8 @@ public class App26NplusOne {
         em.getTransaction().begin();
 
         List<Order> products = em.createQuery(
-                "select o from Order o",
+                "select o from Order o" +
+                        " inner join fetch o.orderRows ",
                 Order.class)
                 .getResultList();
 
