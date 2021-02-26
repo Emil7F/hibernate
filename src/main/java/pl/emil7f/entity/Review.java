@@ -1,7 +1,6 @@
 package pl.emil7f.entity;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 public class Review {

@@ -11,6 +11,7 @@
         <class>pl.emil7f.entity.Customer</class>
         <class>pl.emil7f.entity.OrderRow</class>
         <class>pl.emil7f.entity.Order</class>
+        <class>pl.emil7f.entity.batch.BatchReview</class>
 
         <properties>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
