@@ -15,7 +15,7 @@ import java.util.Map;
 
 /*
 Problem n+1
-Rozwiązanie nr2 z dodatkowym joinem, ale duplikują się rekordy -> dodać distinct
+Rozwiązanie nr4 z BatchSize, wykona się n+1 zapytań / batchSize
  */
 public class App26NplusOne {
     private static EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("unit");
@@ -25,16 +25,11 @@ public class App26NplusOne {
         EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
 
-        EntityGraph entityGraph = em.getEntityGraph("order-and-rows");
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("javax.persistence.fetchgraph", entityGraph);
 
         List<Order> products = em.createQuery(
-                "select o from Order o",
+                "select  o from Order o " ,
                 Order.class
         )
-                .setHint("javax.persistence.fetchgraph", entityGraph)
                 .getResultList();
 
 

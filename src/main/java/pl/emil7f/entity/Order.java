@@ -1,5 +1,7 @@
 package pl.emil7f.entity;
 
+import org.hibernate.annotations.BatchSize;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -35,6 +37,7 @@ public class Order {
 
     @OneToMany
     @JoinColumn(name = "order_id")
+    @BatchSize(size = 10)
     private Set<OrderRow> orderRows;
 
     @OneToOne(fetch = FetchType.LAZY)
