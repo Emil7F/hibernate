@@ -2,6 +2,7 @@ package pl.emil7f.module6;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.Session;
 import pl.emil7f.entity.batch.BatchReview;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -21,6 +22,7 @@ public class App27Insert {
 
     public static void main(String[] args) {
         EntityManager em = entityManagerFactory.createEntityManager();
+        em.unwrap(Session.class).setJdbcBatchSize(10);  //  unwrap rozpakowywuje obiekt sesji hibernate i można ustawić batchSize sesji
         em.getTransaction().begin();
 
         Long lastId = em.createQuery("select max(r.id) from BatchReview r ", Long.class).getSingleResult();
