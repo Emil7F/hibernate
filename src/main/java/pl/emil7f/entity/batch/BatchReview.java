@@ -23,6 +23,16 @@ public class BatchReview {
         this.productId = productId;
     }
 
+    @Override
+    public String toString() {
+        return "BatchReview{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", rating=" + rating +
+                ", productId=" + productId +
+                '}';
+    }
+
     public Long getId() {
         return id;
     }
