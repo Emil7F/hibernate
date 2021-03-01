@@ -10,6 +10,7 @@ import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
@@ -26,13 +27,17 @@ public class App33SelectCriteriaApi {
         CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
         CriteriaQuery<Customer> criteriaQuery = criteriaBuilder.createQuery(Customer.class);
         Root<Customer> customerRoot = criteriaQuery.from(Customer.class);
-        criteriaQuery.select(customerRoot);
+
+        customerRoot.fetch("orders", JoinType.INNER);
+        criteriaQuery.select(customerRoot).distinct(true);
 
         TypedQuery<Customer> query = em.createQuery(criteriaQuery);
         List<Customer> results = query.getResultList();
 
+
         for (Customer result : results) {
             logger.info(result);
+            logger.info(result.getOrders());
         }
 
         em.getTransaction().commit();
