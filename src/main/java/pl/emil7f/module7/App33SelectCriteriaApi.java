@@ -8,10 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.List;
 
 public class App33SelectCriteriaApi {
@@ -28,13 +25,18 @@ public class App33SelectCriteriaApi {
         CriteriaQuery<Customer> criteriaQuery = criteriaBuilder.createQuery(Customer.class);
         Root<Customer> customerRoot = criteriaQuery.from(Customer.class);
 
+        ParameterExpression<Long> id = criteriaBuilder.parameter(Long.class);
+
         customerRoot.fetch("orders", JoinType.INNER);
-        criteriaQuery.select(customerRoot).distinct(true);
+
+        criteriaQuery.select(customerRoot).distinct(true)
+                // where c.id=:id
+        .where(criteriaBuilder.equal(customerRoot.get("id"), id));
 
         TypedQuery<Customer> query = em.createQuery(criteriaQuery);
+        query.setParameter(id, 1L);
+
         List<Customer> results = query.getResultList();
-
-
         for (Customer result : results) {
             logger.info(result);
             logger.info(result.getOrders());
