@@ -9,6 +9,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
+import java.math.BigDecimal;
 import java.util.List;
 
 public class App33SelectCriteriaApi {
@@ -26,15 +27,22 @@ public class App33SelectCriteriaApi {
         Root<Customer> customerRoot = criteriaQuery.from(Customer.class);
 
         ParameterExpression<Long> id = criteriaBuilder.parameter(Long.class);
+        ParameterExpression<BigDecimal> total = criteriaBuilder.parameter(BigDecimal.class);
 
-        customerRoot.fetch("orders", JoinType.INNER);
-
+        Join<Object, Object> orders = (Join<Object, Object>) customerRoot.fetch("orders", JoinType.INNER);
         criteriaQuery.select(customerRoot).distinct(true)
-                // where c.id=:id
-        .where(criteriaBuilder.equal(customerRoot.get("id"), id));
+                // where c.id=:id and o.total > 50
+                .where(
+                        criteriaBuilder.and(
+                                criteriaBuilder.equal(customerRoot.get("id"), id),
+                                criteriaBuilder.greaterThan(orders.get("total"), total)
+                        )
+                );
+
 
         TypedQuery<Customer> query = em.createQuery(criteriaQuery);
         query.setParameter(id, 1L);
+        query.setParameter(total, new BigDecimal(50.00));
 
         List<Customer> results = query.getResultList();
         for (Customer result : results) {
