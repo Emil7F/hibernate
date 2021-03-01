@@ -30,6 +30,8 @@ public class App33SelectCriteriaApi {
         ParameterExpression<BigDecimal> total = criteriaBuilder.parameter(BigDecimal.class);
 
         Join<Object, Object> orders = (Join<Object, Object>) customerRoot.fetch("orders", JoinType.INNER);
+        orders.fetch("orderRows")
+                .fetch("product");
         criteriaQuery.select(customerRoot).distinct(true)
                 // where c.id=:id and o.total > 50
                 .where(
@@ -47,7 +49,16 @@ public class App33SelectCriteriaApi {
         List<Customer> results = query.getResultList();
         for (Customer result : results) {
             logger.info(result);
-            logger.info(result.getOrders());
+            result.getOrders().forEach(order ->
+                    {
+                        logger.info(order);
+                        order.getOrderRows().forEach(orderRow -> {
+                            logger.info(orderRow);
+                            logger.info(orderRow.getProduct());
+                        });
+                    }
+            );
+
         }
 
         em.getTransaction().commit();
