@@ -26,8 +26,7 @@ public class App34CriteriaFiltering {
         CriteriaQuery<Customer> criteriaQuery = criteriaBuilder.createQuery(Customer.class);
         Root<Customer> customerRoot = criteriaQuery.from(Customer.class);
 
-        ParameterExpression<Long> id1 = criteriaBuilder.parameter(Long.class);
-        ParameterExpression<Long> id2 = criteriaBuilder.parameter(Long.class);
+
         ParameterExpression<BigDecimal> total = criteriaBuilder.parameter(BigDecimal.class);
 
         Join<Object, Object> orders = (Join<Object, Object>) customerRoot
@@ -40,15 +39,13 @@ public class App34CriteriaFiltering {
                 .where(
                         criteriaBuilder.and(
                                 criteriaBuilder.or(
-                                        criteriaBuilder.equal(customerRoot.get("id"), id1),
-                                        criteriaBuilder.equal(customerRoot.get("id"), id2)),
+                                        criteriaBuilder.like(customerRoot.get("lastname"), "%ow%")
+                                ),
                                 criteriaBuilder.greaterThan(orders.get("total"), total)
                         )
                 );
 
         TypedQuery<Customer> query = em.createQuery(criteriaQuery);
-        query.setParameter(id1, 1L);
-        query.setParameter(id2, 2L);
         query.setParameter(total, new BigDecimal(30.00));
 
         List<Customer> resultList = query.getResultList();
