@@ -44,12 +44,10 @@ public class App35CriteriaAggregations {
         Join<Object, Object> product = orderRows.join("product");
         Join<Object, Object> category = product.join("category");
 
-        criteriaQuery.select(
-                criteriaBuilder.array(
-                        customer.get("id"),
-                        customer.get("lastname"),
-                        customer.get("firstname")
-                )
+        criteriaQuery.multiselect(
+                customer.get("id"),
+                customer.get("lastname"),
+                customer.get("firstname")
         );
 
         TypedQuery<Object[]> query = em.createQuery(criteriaQuery);
