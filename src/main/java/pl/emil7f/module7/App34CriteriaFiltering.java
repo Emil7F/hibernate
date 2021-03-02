@@ -10,6 +10,8 @@ import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 public class App34CriteriaFiltering {
@@ -29,6 +31,7 @@ public class App34CriteriaFiltering {
 
         ParameterExpression<BigDecimal> total = criteriaBuilder.parameter(BigDecimal.class);
         ParameterExpression<String> lastname = criteriaBuilder.parameter(String.class);
+        ParameterExpression<Collection> ids = criteriaBuilder.parameter(Collection.class);
 
         Join<Object, Object> orders = (Join<Object, Object>) customerRoot
                 .fetch("orders", JoinType.INNER);
@@ -39,9 +42,7 @@ public class App34CriteriaFiltering {
         criteriaQuery.select(customerRoot).distinct(true)
                 .where(
                         criteriaBuilder.and(
-                                criteriaBuilder.or(
-                                        criteriaBuilder.like(customerRoot.get("lastname"), criteriaBuilder.concat(lastname, "%"))
-                                ),
+                                customerRoot.get("id").in(ids),
                                 criteriaBuilder.between(orders.get("total"),
                                         total, criteriaBuilder.literal(new BigDecimal("70.00"))),
                                 criteriaBuilder.isNotNull(customerRoot.get("firstname"))
@@ -50,7 +51,7 @@ public class App34CriteriaFiltering {
 
         TypedQuery<Customer> query = em.createQuery(criteriaQuery);
         query.setParameter(total, new BigDecimal(30.00));
-        query.setParameter(lastname, "ow");
+        query.setParameter(ids, Arrays.asList(1L, 2L, 4L));
 
         List<Customer> resultList = query.getResultList();
         for (Customer result : resultList) {
