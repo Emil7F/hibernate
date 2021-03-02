@@ -47,13 +47,18 @@ public class App35CriteriaAggregations {
         criteriaQuery.multiselect(
                 customer.get("id"),
                 customer.get("lastname"),
-                customer.get("firstname")
-        );
+                customer.get("firstname"),
+                criteriaBuilder.sum(orderRows.get("price"))
+
+        )
+                .groupBy(category.get("id"), customer.get("id"))
+                .orderBy(criteriaBuilder.desc(criteriaBuilder.sum(orderRows.get("price"))))
+                .having(criteriaBuilder.greaterThan(criteriaBuilder.sum(orderRows.get("price")), 50));
 
         TypedQuery<Object[]> query = em.createQuery(criteriaQuery);
         List<Object[]> resultList = query.getResultList();
         for (Object[] row : resultList) {
-            logger.info(row[0] + ", " + row[1] + ", " + row[2]);
+            logger.info(row[0] + ", " + row[1] + ", " + row[2] + ", " + row[3]);
         }
 
         em.getTransaction().commit();
