@@ -2,6 +2,7 @@ package pl.emil7f.entity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -17,6 +18,17 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer")
     private Set<Order> orders;
+
+    @ElementCollection
+    private List<Address> address;
+
+    public List<Address> getAddress() {
+        return address;
+    }
+
+    public void setAddress(List<Address> addressList) {
+        this.address = addressList;
+    }
 
     public Set<Order> getOrders() {
         return orders;
