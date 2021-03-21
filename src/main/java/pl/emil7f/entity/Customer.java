@@ -22,6 +22,17 @@ public class Customer {
     @ElementCollection
     private List<Address> address;
 
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "customer", cascade = CascadeType.ALL, optional = false)
+    private CustomerDetails customerDetails;
+
+    public CustomerDetails getCustomerDetails() {
+        return customerDetails;
+    }
+
+    public void setCustomerDetails(CustomerDetails customerDetails) {
+        this.customerDetails = customerDetails;
+    }
+
     public List<Address> getAddress() {
         return address;
     }
